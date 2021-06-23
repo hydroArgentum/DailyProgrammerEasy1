@@ -48,9 +48,6 @@ int main(void)
     int file_close_code = 0;
 #if defined(WIN32) || defined(__STDC_WANT_LIB_EXT1__)
     file_close_code = fopen_s(&log_file, "run.log", "w");
-#else
-    log_file = fopen("run.log", "w");
-#endif
 
     // This weird hacky logic is needed to prevent Visual Studio from
     // complaining about printf_s. Please fix, Microsoft.
@@ -63,6 +60,9 @@ int main(void)
         fclose(log_file);
         return ERR_IO_ERROR;
     }
+#else
+    log_file = fopen("run.log", "w");
+#endif
 
     // Prompt the user, passthrough the input variables to hold responses,
     // and take note of any issues with the user input.
